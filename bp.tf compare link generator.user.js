@@ -43,14 +43,41 @@
         var lastseen  = $tds.eq(cols['lastseen']).text();
         var day_current = new Date(lastseen);
         day_current = new Date(day_current.getUTCFullYear(),day_current.getMonth(),day_current.getUTCDate());
-        var unix_current = (day_current.getTime() - day_current.getTimezoneOffset()*60*1000)/1000;
+        var unix_current = (day_current.getTime() - day_current.getTimezoneOffset()*60*1000 + 86400000)/1000;
         var day_before = new Date(day_current.getUTCFullYear(),day_current.getMonth(),day_current.getUTCDate());
-        var unix_before = (day_current.getTime() - day_current.getTimezoneOffset()*60*1000 - 86400000)/1000;
+        var unix_before = (day_current.getTime() - day_current.getTimezoneOffset()*60*1000)/1000;
         var href_link1 = "https://backpack.tf/profiles/" + usersteamid + "#!/compare/" + unix_before + "/" + unix_current;
         var href_link2 = "https://backpack.tf/profiles/" + other_owner + "#!/compare/" + unix_before + "/" + unix_current;
+        contents =  '<i class="stm stm-backpack-tf"></i>';
+
+
         if(other_owner != ''){
-            $tds.eq(cols['lastseen']).append("<a href="+href_link1+">      COMPARE1</a>");
-            $tds.eq(cols['lastseen']).append("<a href="+href_link2+">      COMPARE2</a>");
+            var $link = $('<a/>')
+                     .html(contents)
+                     .attr({
+                        'href': href_link1,
+                        'target': '_blank'
+                     });
+            var $span = $('<span/>')
+                    .css({
+                        'float': 'right',
+                        'margin-left': '0.6em'
+                    })
+                    .append($link);
+            $tds.eq(cols['owner']).append($span);
+            var $link = $('<a/>')
+                     .html(contents)
+                     .attr({
+                        'href': href_link2,
+                        'target': '_blank'
+                     });
+            var $span = $('<span/>')
+                    .css({
+                        'float': 'right',
+                        'margin-left': '0.6em'
+                    })
+                    .append($link);
+            $tds.eq(cols['owner']).append($span);
         }
         other_owner = usersteamid;
     };
